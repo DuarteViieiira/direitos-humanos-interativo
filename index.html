@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Direitos Humanos: Interativo</title>
+    <style>
+        /* --- ESTILOS GERAIS (CSS) --- */
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --success: #27ae60;
+            --text: #333;
+            --bg: #fdfdfd;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        h1 { margin: 0; font-size: 2.5rem; }
+        p.subtitle { margin-top: 10px; opacity: 0.9; font-size: 1.2rem; }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        section { margin-bottom: 4rem; }
+        h2 { text-align: center; color: var(--primary); margin-bottom: 2rem; }
+
+        /* --- ESTILOS DOS CARTÕES (FLIP CARDS) --- */
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: transparent;
+            width: 280px;
+            height: 200px;
+            perspective: 1000px; /* Efeito 3D */
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .card:hover .card-inner {
+            transform: rotateY(180deg);
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card-front {
+            background-color: white;
+            border: 2px solid var(--accent);
+            color: var(--primary);
+        }
+
+        .card-back {
+            background-color: var(--accent);
+            color: white;
+            transform: rotateY(180deg);
+        }
+
+        /* --- ESTILOS DO QUIZ --- */
+        .quiz-box {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .options button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: 0.3s;
+        }
+
+        .options button:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+
+        #resultado {
+            margin-top: 20px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 5px;
+            display: none; /* Escondido inicialmente */
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: var(--primary);
+            color: white;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Direitos Humanos Interativos</h1>
+        <p class="subtitle">Aprende, explora e testa o teu conhecimento.</p>
+    </header>
+
+    <div class="container">
+        
+        <section id="aprender">
+            <h2>Passa o rato para descobrir os Artigos</h2>
+            <div class="cards-grid">
+                
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <h3>Artigo 1º</h3>
+                            <p>Liberdade e Igualdade</p>
+                        </div>
+                        <div class="card-back">
+                            <p>"Todos os seres humanos nascem livres e iguais em dignidade e em direitos."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <h3>Artigo 3º</h3>
+                            <p>Vida e Segurança</p>
+                        </div>
+                        <div class="card-back">
+                            <p>"Todo o indivíduo tem direito à vida, à liberdade e à segurança pessoal."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <h3>Artigo 19º</h3>
+                            <p>Liberdade de Expressão</p>
+                        </div>
+                        <div class="card-back">
+                            <p>"Todo o indivíduo tem direito à liberdade de opinião e de expressão."</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 3rem 0;">
+
+        <section id="quiz">
+            <h2>Quiz Rápido</h2>
+            <div class="quiz-box">
+                <p id="pergunta"><strong>Qual foi o ano de adoção da Declaração Universal dos Direitos Humanos?</strong></p>
+                
+                <div class="options">
+                    <button onclick="verificar(1945)">1945</button>
+                    <button onclick="verificar(1948)">1948</button>
+                    <button onclick="verificar(2000)">2000</button>
+                </div>
+
+                <div id="resultado"></div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>Desenvolvido para fins educativos | Hospedado no GitHub Pages</p>
+    </footer>
+
+    <script>
+        /* --- LÓGICA DO QUIZ (JAVASCRIPT) --- */
+        function verificar(resposta) {
+            const caixaResultado = document.getElementById('resultado');
+            
+            if (resposta === 1948) {
+                caixaResultado.style.display = "block";
+                caixaResultado.style.backgroundColor = "#d4edda"; // Verde claro
+                caixaResultado.style.color = "#155724";
+                caixaResultado.innerText = "✅ Correto! A Declaração foi adotada pela ONU em Paris, a 10 de dezembro de 1948.";
+            } else {
+                caixaResultado.style.display = "block";
+                caixaResultado.style.backgroundColor = "#f8d7da"; // Vermelho claro
+                caixaResultado.style.color = "#721c24";
+                caixaResultado.innerText = "❌ Incorreto. Tenta outra vez!";
+            }
+        }
+    </script>
+
+</body>
+</html>
