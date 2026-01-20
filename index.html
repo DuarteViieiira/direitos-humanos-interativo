@@ -3,35 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Direitos Humanos: Interativo</title>
+    <title>Direitos Humanos Interativos</title>
     <style>
-        /* --- ESTILOS GERAIS (CSS) --- */
+        /* --- 1. ESTILOS GERAIS --- */
         :root {
-            --primary: #2c3e50;
-            --accent: #3498db;
-            --success: #27ae60;
+            --primary: #1a5276; /* Azul Escuro ONU */
+            --accent: #3498db;  /* Azul Claro */
+            --light: #eaf2f8;
             --text: #333;
-            --bg: #fdfdfd;
         }
+
+        html { scroll-behavior: smooth; }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--bg);
+            background-color: #fdfdfd;
             color: var(--text);
             line-height: 1.6;
         }
 
+        /* --- 2. CABEÇALHO E NAVEGAÇÃO --- */
         header {
             background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
-            padding: 2rem 1rem;
+            padding: 3rem 1rem;
             text-align: center;
         }
 
-        h1 { margin: 0; font-size: 2.5rem; }
-        p.subtitle { margin-top: 10px; opacity: 0.9; font-size: 1.2rem; }
+        header h1 { margin: 0; font-size: 2.5rem; }
+        header p { margin-top: 10px; font-size: 1.2rem; opacity: 0.9; }
+
+        nav {
+            background-color: #154360;
+            text-align: center;
+            padding: 10px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        nav a:hover { text-decoration: underline; }
 
         .container {
             max-width: 1000px;
@@ -39,10 +60,20 @@
             padding: 2rem;
         }
 
-        section { margin-bottom: 4rem; }
-        h2 { text-align: center; color: var(--primary); margin-bottom: 2rem; }
+        section { margin-bottom: 5rem; padding-top: 2rem; }
+        h2 { 
+            text-align: center; 
+            color: var(--primary); 
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+            margin-bottom: 2rem;
+            padding-bottom: 5px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
 
-        /* --- ESTILOS DOS CARTÕES (FLIP CARDS) --- */
+        /* --- 3. ESTILOS DOS CARTÕES (FLIP CARDS) --- */
         .cards-grid {
             display: flex;
             flex-wrap: wrap;
@@ -53,8 +84,8 @@
         .card {
             background-color: transparent;
             width: 280px;
-            height: 200px;
-            perspective: 1000px; /* Efeito 3D */
+            height: 220px;
+            perspective: 1000px;
             cursor: pointer;
         }
 
@@ -67,9 +98,7 @@
             transform-style: preserve-3d;
         }
 
-        .card:hover .card-inner {
-            transform: rotateY(180deg);
-        }
+        .card:hover .card-inner { transform: rotateY(180deg); }
 
         .card-front, .card-back {
             position: absolute;
@@ -77,7 +106,7 @@
             height: 100%;
             backface-visibility: hidden;
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -86,76 +115,120 @@
             box-sizing: border-box;
         }
 
-        .card-front {
-            background-color: white;
-            border: 2px solid var(--accent);
-            color: var(--primary);
-        }
-
+        .card-front { background-color: white; border-top: 5px solid var(--accent); }
+        .card-front h3 { color: var(--primary); margin-bottom: 10px; font-size: 1.5rem; }
+        
         .card-back {
             background-color: var(--accent);
             color: white;
             transform: rotateY(180deg);
         }
 
-        /* --- ESTILOS DO QUIZ --- */
-        .quiz-box {
+        /* --- 4. ESTILOS DO MAPA --- */
+        .map-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #aed6f1; /* Cor do oceano */
+        }
+
+        .world-map { width: 100%; display: block; }
+
+        .pin {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #e74c3c;
+            border: 2px solid white;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.3s;
+            box-shadow: 0 0 5px rgba(0,0,0,0.5);
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(231, 76, 60, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(231, 76, 60, 0); }
+        }
+
+        .pin:hover { background-color: #c0392b; transform: scale(1.2); animation: none; }
+
+        .history-box {
+            background-color: var(--light);
+            border-left: 5px solid var(--primary);
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 5px;
+            min-height: 100px;
+        }
+
+        /* --- 5. ESTILOS DO QUIZ --- */
+        .quiz-container {
+            max-width: 600px;
+            margin: 0 auto;
             background: white;
             padding: 2rem;
             border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
 
+        .question-block { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
+        
         .options button {
             display: block;
             width: 100%;
-            padding: 10px;
-            margin: 10px 0;
+            padding: 12px;
+            margin: 8px 0;
             border: 1px solid #ddd;
-            background: #f9f9f9;
+            background: #f8f9fa;
             cursor: pointer;
-            border-radius: 5px;
-            font-size: 1rem;
-            transition: 0.3s;
+            border-radius: 6px;
+            transition: 0.2s;
+            text-align: left;
         }
 
-        .options button:hover {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-
-        #resultado {
-            margin-top: 20px;
+        .options button:hover { background-color: var(--light); border-color: var(--accent); }
+        
+        .feedback {
+            margin-top: 10px;
             font-weight: bold;
-            padding: 10px;
-            border-radius: 5px;
-            display: none; /* Escondido inicialmente */
+            padding: 8px;
+            border-radius: 4px;
+            display: none;
         }
 
         footer {
-            text-align: center;
-            padding: 20px;
             background-color: var(--primary);
             color: white;
-            font-size: 0.9rem;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
         }
     </style>
 </head>
 <body>
 
+    <nav>
+        <a href="#artigos">Artigos</a>
+        <a href="#mapa">Mapa Histórico</a>
+        <a href="#quiz">Quiz</a>
+    </nav>
+
     <header>
-        <h1>Direitos Humanos Interativos</h1>
-        <p class="subtitle">Aprende, explora e testa o teu conhecimento.</p>
+        <h1>A Declaração Universal</h1>
+        <p>Conhece os teus direitos. Explora a história. Testa o teu saber.</p>
     </header>
 
     <div class="container">
         
-        <section id="aprender">
-            <h2>Passa o rato para descobrir os Artigos</h2>
+        <section id="artigos">
+            <h2>Artigos Fundamentais</h2>
             <div class="cards-grid">
                 
                 <div class="card">
@@ -163,6 +236,7 @@
                         <div class="card-front">
                             <h3>Artigo 1º</h3>
                             <p>Liberdade e Igualdade</p>
+                            <small>(Passa o rato)</small>
                         </div>
                         <div class="card-back">
                             <p>"Todos os seres humanos nascem livres e iguais em dignidade e em direitos."</p>
@@ -185,6 +259,30 @@
                 <div class="card">
                     <div class="card-inner">
                         <div class="card-front">
+                            <h3>Artigo 4º</h3>
+                            <p>Fim da Escravatura</p>
+                        </div>
+                        <div class="card-back">
+                            <p>"Ninguém será mantido em escravatura ou servidão."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <h3>Artigo 5º</h3>
+                            <p>Contra a Tortura</p>
+                        </div>
+                        <div class="card-back">
+                            <p>"Ninguém será submetido a tortura, nem a penas ou tratamentos cruéis."</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">
                             <h3>Artigo 19º</h3>
                             <p>Liberdade de Expressão</p>
                         </div>
@@ -194,47 +292,135 @@
                     </div>
                 </div>
 
+                <div class="card">
+                    <div class="card-inner">
+                        <div class="card-front">
+                            <h3>Artigo 26º</h3>
+                            <p>Direito à Educação</p>
+                        </div>
+                        <div class="card-back">
+                            <p>"Toda a pessoa tem direito à educação. A educação deve ser gratuita, pelo menos a elementar."</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
-        <hr style="border: 0; border-top: 1px solid #eee; margin: 3rem 0;">
+        <section id="mapa">
+            <h2>A Origem da ONU</h2>
+            <p style="text-align: center;">Clica nos pontos vermelhos no mapa para veres a história.</p>
+            
+            <div class="map-container">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b3/World_map_blank_gmt.png" alt="Mapa Mundo" class="world-map">
+                
+                <div class="pin" style="top: 32%; left: 16%;" onclick="mostrarHistoria('sf')" title="São Francisco"></div>
+                <div class="pin" style="top: 31%; left: 26%;" onclick="mostrarHistoria('ny')" title="Nova Iorque"></div>
+                <div class="pin" style="top: 27%; left: 49%;" onclick="mostrarHistoria('paris')" title="Paris"></div>
+                <div class="pin" style="top: 29%; left: 50.5%;" onclick="mostrarHistoria('genebra')" title="Genebra"></div>
+            </div>
+
+            <div id="caixa-historia" class="history-box">
+                <h3>Seleciona uma cidade...</h3>
+                <p>Descobre onde foram dados os passos mais importantes para os Direitos Humanos.</p>
+            </div>
+        </section>
 
         <section id="quiz">
-            <h2>Quiz Rápido</h2>
-            <div class="quiz-box">
-                <p id="pergunta"><strong>Qual foi o ano de adoção da Declaração Universal dos Direitos Humanos?</strong></p>
+            <h2>Testa o teu Conhecimento</h2>
+            <div class="quiz-container">
                 
-                <div class="options">
-                    <button onclick="verificar(1945)">1945</button>
-                    <button onclick="verificar(1948)">1948</button>
-                    <button onclick="verificar(2000)">2000</button>
+                <div class="question-block">
+                    <p><strong>1. Em que ano foi adotada a Declaração Universal dos Direitos Humanos?</strong></p>
+                    <div class="options">
+                        <button onclick="checkQuiz(this, false, 'p1')">1945</button>
+                        <button onclick="checkQuiz(this, true, 'p1')">1948</button>
+                        <button onclick="checkQuiz(this, false, 'p1')">1955</button>
+                    </div>
+                    <div id="feedback-p1" class="feedback"></div>
                 </div>
 
-                <div id="resultado"></div>
+                <div class="question-block">
+                    <p><strong>2. Quantos artigos tem a Declaração?</strong></p>
+                    <div class="options">
+                        <button onclick="checkQuiz(this, false, 'p2')">10 Artigos</button>
+                        <button onclick="checkQuiz(this, true, 'p2')">30 Artigos</button>
+                        <button onclick="checkQuiz(this, false, 'p2')">50 Artigos</button>
+                    </div>
+                    <div id="feedback-p2" class="feedback"></div>
+                </div>
+
+                <div class="question-block">
+                    <p><strong>3. Quem foi a primeira presidente da Comissão de Direitos Humanos da ONU?</strong></p>
+                    <div class="options">
+                        <button onclick="checkQuiz(this, true, 'p3')">Eleanor Roosevelt</button>
+                        <button onclick="checkQuiz(this, false, 'p3')">Marie Curie</button>
+                        <button onclick="checkQuiz(this, false, 'p3')">Rainha Isabel II</button>
+                    </div>
+                    <div id="feedback-p3" class="feedback"></div>
+                </div>
+
             </div>
         </section>
 
     </div>
 
     <footer>
-        <p>Desenvolvido para fins educativos | Hospedado no GitHub Pages</p>
+        <p>Site Educativo | Criado com GitHub Pages</p>
     </footer>
 
     <script>
-        /* --- LÓGICA DO QUIZ (JAVASCRIPT) --- */
-        function verificar(resposta) {
-            const caixaResultado = document.getElementById('resultado');
+        // --- LÓGICA DO MAPA ---
+        function mostrarHistoria(local) {
+            const titulo = document.querySelector("#caixa-historia h3");
+            const texto = document.querySelector("#caixa-historia p");
+            const caixa = document.getElementById("caixa-historia");
+
+            if (local === 'sf') {
+                titulo.innerText = "1945: São Francisco, EUA 🇺🇸";
+                texto.innerText = "Conferência das Nações Unidas: Onde 50 países assinaram a Carta da ONU para promover a paz.";
+            } else if (local === 'ny') {
+                titulo.innerText = "1952: Nova Iorque, EUA 🇺🇸";
+                texto.innerText = "Sede da ONU: O local onde a Assembleia Geral se reúne para discutir problemas mundiais.";
+            } else if (local === 'paris') {
+                titulo.innerText = "1948: Paris, França 🇫🇷";
+                texto.innerText = "Palácio de Chaillot: O local histórico onde foi assinada a Declaração Universal dos Direitos Humanos.";
+            } else if (local === 'genebra') {
+                titulo.innerText = "Genebra, Suíça 🇨🇭";
+                texto.innerText = "Sede Europeia: Onde opera o Conselho de Direitos Humanos, vigiando abusos pelo mundo.";
+            }
+
+            // Animação simples
+            caixa.style.backgroundColor = "#fff";
+            setTimeout(() => { caixa.style.backgroundColor = "#eaf2f8"; }, 200);
+        }
+
+        // --- LÓGICA DO QUIZ ---
+        function checkQuiz(btn, isCorrect, id) {
+            const feedbackBox = document.getElementById('feedback-' + id);
             
-            if (resposta === 1948) {
-                caixaResultado.style.display = "block";
-                caixaResultado.style.backgroundColor = "#d4edda"; // Verde claro
-                caixaResultado.style.color = "#155724";
-                caixaResultado.innerText = "✅ Correto! A Declaração foi adotada pela ONU em Paris, a 10 de dezembro de 1948.";
+            // Bloqueia outros botões da mesma pergunta (opcional, mas bom)
+            const parent = btn.parentElement;
+            const buttons = parent.getElementsByTagName('button');
+            for(let i=0; i<buttons.length; i++) {
+                buttons[i].disabled = true;
+                buttons[i].style.cursor = "default";
+            }
+
+            feedbackBox.style.display = "block";
+
+            if (isCorrect) {
+                btn.style.backgroundColor = "#d4edda";
+                btn.style.borderColor = "#c3e6cb";
+                feedbackBox.style.color = "#155724";
+                feedbackBox.style.backgroundColor = "#d4edda";
+                feedbackBox.innerText = "✅ Correto! Muito bem.";
             } else {
-                caixaResultado.style.display = "block";
-                caixaResultado.style.backgroundColor = "#f8d7da"; // Vermelho claro
-                caixaResultado.style.color = "#721c24";
-                caixaResultado.innerText = "❌ Incorreto. Tenta outra vez!";
+                btn.style.backgroundColor = "#f8d7da";
+                btn.style.borderColor = "#f5c6cb";
+                feedbackBox.style.color = "#721c24";
+                feedbackBox.style.backgroundColor = "#f8d7da";
+                feedbackBox.innerText = "❌ Incorreto.";
             }
         }
     </script>
