@@ -7,12 +7,14 @@
     <style>
         /* --- 1. ESTILOS GERAIS --- */
         :root {
-            --primary: #1a5276; /* Azul Escuro */
-            --accent: #3498db;  /* Azul Claro */
-            --light: #eaf2f8;
-            --text: #333;
+            --primary: #1a5276;       /* Azul Escuro ONU */
+            --accent: #3498db;        /* Azul Claro */
+            --light: #eaf2f8;         /* Fundo Claro */
+            --text: #333;             /* Cor do Texto */
+            --timeline-color: #e74c3c; /* Vermelho para destaque */
         }
 
+        /* ISTO FAZ O SCROLL SUAVE NO MENU */
         html { scroll-behavior: smooth; }
 
         body {
@@ -29,9 +31,9 @@
             background-color: #154360;
             text-align: center;
             padding: 15px;
-            position: sticky;
+            position: sticky; /* Menu cola no topo */
             top: 0;
-            z-index: 100;
+            z-index: 1000;
             box-shadow: 0 2px 5px rgba(0,0,0,0.2);
         }
 
@@ -43,6 +45,7 @@
             font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: color 0.3s;
         }
 
         nav a:hover { color: var(--accent); }
@@ -63,7 +66,12 @@
             padding: 2rem;
         }
 
-        section { margin-bottom: 6rem; padding-top: 2rem; }
+        /* Ajuste para o menu não tapar os títulos ao descer */
+        section { 
+            margin-bottom: 6rem; 
+            padding-top: 80px; 
+            margin-top: -60px; 
+        }
         
         h2 { 
             text-align: center; 
@@ -136,7 +144,7 @@
             border: 1px solid #ddd;
             border-radius: 10px;
             overflow: hidden;
-            background-color: #aed6f1; /* Cor do oceano */
+            background-color: #aed6f1;
         }
 
         .world-map { width: 100%; display: block; }
@@ -173,48 +181,109 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
 
-        /* --- 5. ESTILOS DO QUIZ --- */
-        .quiz-container {
-            max-width: 600px;
+        /* --- 5. ESTILOS DA TIMELINE VERTICAL --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
             margin: 0 auto;
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
-
-        .question-block { margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px; }
-        
-        .options button {
-            display: block;
+        /* Linha Vertical */
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #ddd;
+            top: 0;
+            bottom: 0;
+            left: 20px; 
+            margin-left: -2px;
+        }
+        /* Contentor do item */
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
             width: 100%;
-            padding: 12px;
-            margin: 8px 0;
-            border: 1px solid #ddd;
-            background: #f8f9fa;
-            cursor: pointer;
+            box-sizing: border-box;
+        }
+        /* Bolinhas */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 12px;
+            background-color: white;
+            border: 4px solid var(--timeline-color);
+            top: 25px;
+            border-radius: 50%;
+            z-index: 1;
+            transition: background-color 0.3s;
+        }
+        .timeline-item:hover::after {
+            background-color: var(--timeline-color);
+        }
+        /* Caixa de Texto */
+        .content {
+            padding: 20px;
+            background-color: white;
+            position: relative;
             border-radius: 6px;
-            transition: 0.2s;
-            text-align: left;
-            font-size: 1rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border-left: 4px solid var(--timeline-color);
+        }
+        .content:hover {
+            transform: translateX(10px);
+        }
+        .content h3 { color: var(--primary); margin-top: 0; }
+        .date { 
+            font-weight: bold; 
+            color: var(--timeline-color); 
+            display: block; 
+            margin-bottom: 5px; 
+            font-size: 1.2rem; 
         }
 
-        .options button:hover { background-color: var(--light); border-color: var(--accent); }
-        
-        .feedback {
-            margin-top: 15px;
-            font-weight: bold;
-            padding: 10px;
-            border-radius: 4px;
-            display: none;
+        /* --- 6. GERADOR DE CITAÇÕES --- */
+        .quote-box {
+            text-align: center;
+            background: var(--primary);
+            color: white;
+            padding: 3rem;
+            border-radius: 15px;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
+        .quote-text {
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 20px;
+            display: block;
+            min-height: 80px; 
+        }
+        .quote-author { font-weight: bold; opacity: 0.9; }
+        .quote-btn {
+            background-color: var(--timeline-color);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 1rem;
+            border-radius: 50px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s, transform 0.2s;
+            font-weight: bold;
+        }
+        .quote-btn:hover { background-color: #c0392b; transform: scale(1.05); }
 
         footer {
             background-color: var(--primary);
             color: white;
             text-align: center;
             padding: 3rem;
-            margin-top: 3rem;
+            margin-top: 5rem;
         }
     </style>
 </head>
@@ -222,13 +291,14 @@
 
     <nav>
         <a href="#artigos">Artigos</a>
-        <a href="#mapa">Mapa Histórico</a>
-        <a href="#quiz">Quiz</a>
+        <a href="#mapa">Mapa</a>
+        <a href="#timeline">Linha do Tempo</a>
+        <a href="#citacao">Inspiração</a>
     </nav>
 
     <header>
         <h1>A Declaração Universal</h1>
-        <p>Conhece os teus direitos. Explora a história. Testa o teu saber.</p>
+        <p>Conhece os teus direitos. Explora a história. Inspira-te.</p>
     </header>
 
     <div class="container">
@@ -237,78 +307,12 @@
             <h2>Artigos Fundamentais</h2>
             <div class="cards-grid">
                 
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <h3>Artigo 1º</h3>
-                            <p>Liberdade e Igualdade</p>
-                            <small>(Passa o rato)</small>
-                        </div>
-                        <div class="card-back">
-                            <p>"Todos os seres humanos nascem livres e iguais em dignidade e em direitos."</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <h3>Artigo 3º</h3>
-                            <p>Vida e Segurança</p>
-                        </div>
-                        <div class="card-back">
-                            <p>"Todo o indivíduo tem direito à vida, à liberdade e à segurança pessoal."</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <h3>Artigo 4º</h3>
-                            <p>Fim da Escravatura</p>
-                        </div>
-                        <div class="card-back">
-                            <p>"Ninguém será mantido em escravatura ou servidão."</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <h3>Artigo 5º</h3>
-                            <p>Contra a Tortura</p>
-                        </div>
-                        <div class="card-back">
-                            <p>"Ninguém será submetido a tortura, nem a penas ou tratamentos cruéis."</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <h3>Artigo 19º</h3>
-                            <p>Liberdade de Expressão</p>
-                        </div>
-                        <div class="card-back">
-                            <p>"Todo o indivíduo tem direito à liberdade de opinião e de expressão."</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <h3>Artigo 26º</h3>
-                            <p>Direito à Educação</p>
-                        </div>
-                        <div class="card-back">
-                            <p>"Toda a pessoa tem direito à educação. A educação deve ser gratuita, pelo menos a elementar."</p>
-                        </div>
-                    </div>
-                </div>
+                <div class="card"><div class="card-inner"><div class="card-front"><h3>Artigo 1º</h3><p>Liberdade e Igualdade</p><small>(Passa o rato)</small></div><div class="card-back"><p>"Todos os seres humanos nascem livres e iguais em dignidade e em direitos."</p></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-front"><h3>Artigo 3º</h3><p>Vida e Segurança</p></div><div class="card-back"><p>"Todo o indivíduo tem direito à vida, à liberdade e à segurança pessoal."</p></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-front"><h3>Artigo 4º</h3><p>Fim da Escravatura</p></div><div class="card-back"><p>"Ninguém será mantido em escravatura ou servidão; a escravatura é proibida."</p></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-front"><h3>Artigo 5º</h3><p>Contra a Tortura</p></div><div class="card-back"><p>"Ninguém será submetido a tortura, nem a penas ou tratamentos cruéis."</p></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-front"><h3>Artigo 19º</h3><p>Liberdade de Expressão</p></div><div class="card-back"><p>"Todo o indivíduo tem direito à liberdade de opinião e de expressão."</p></div></div></div>
+                <div class="card"><div class="card-inner"><div class="card-front"><h3>Artigo 26º</h3><p>Direito à Educação</p></div><div class="card-back"><p>"Toda a pessoa tem direito à educação. A educação deve ser gratuita."</p></div></div></div>
 
             </div>
         </section>
@@ -332,51 +336,72 @@
             </div>
         </section>
 
-        <section id="quiz">
-            <h2>Testa o teu Conhecimento</h2>
-            <div class="quiz-container">
+        <section id="timeline">
+            <h2>Marcos Históricos</h2>
+            
+            <div class="timeline">
                 
-                <div class="question-block">
-                    <p><strong>1. Em que ano foi adotada a Declaração Universal dos Direitos Humanos?</strong></p>
-                    <div class="options">
-                        <button onclick="checkQuiz(this, false, 'p1')">1945</button>
-                        <button onclick="checkQuiz(this, true, 'p1')">1948</button>
-                        <button onclick="checkQuiz(this, false, 'p1')">1955</button>
+                <div class="timeline-item">
+                    <div class="content">
+                        <span class="date">539 a.C.</span>
+                        <h3>O Cilindro de Ciro</h3>
+                        <p>Ciro, o Grande, conquista a Babilónia e declara que todos os escravos são livres.</p>
                     </div>
-                    <div id="feedback-p1" class="feedback"></div>
                 </div>
 
-                <div class="question-block">
-                    <p><strong>2. Quantos artigos tem a Declaração?</strong></p>
-                    <div class="options">
-                        <button onclick="checkQuiz(this, false, 'p2')">10 Artigos</button>
-                        <button onclick="checkQuiz(this, true, 'p2')">30 Artigos</button>
-                        <button onclick="checkQuiz(this, false, 'p2')">50 Artigos</button>
+                <div class="timeline-item">
+                    <div class="content">
+                        <span class="date">1215</span>
+                        <h3>A Magna Carta</h3>
+                        <p>Assinada em Inglaterra, estabeleceu pela primeira vez que o rei também estava sujeito à lei.</p>
                     </div>
-                    <div id="feedback-p2" class="feedback"></div>
                 </div>
 
-                <div class="question-block">
-                    <p><strong>3. Quem foi a primeira presidente da Comissão de Direitos Humanos da ONU?</strong></p>
-                    <div class="options">
-                        <button onclick="checkQuiz(this, true, 'p3')">Eleanor Roosevelt</button>
-                        <button onclick="checkQuiz(this, false, 'p3')">Marie Curie</button>
-                        <button onclick="checkQuiz(this, false, 'p3')">Rainha Isabel II</button>
+                <div class="timeline-item">
+                    <div class="content">
+                        <span class="date">1789</span>
+                        <h3>Revolução Francesa</h3>
+                        <p>Adoção da "Declaração dos Direitos do Homem e do Cidadão" em Paris.</p>
                     </div>
-                    <div id="feedback-p3" class="feedback"></div>
                 </div>
 
+                <div class="timeline-item">
+                    <div class="content">
+                        <span class="date">1945</span>
+                        <h3>Criação da ONU</h3>
+                        <p>Após a Segunda Guerra Mundial, 50 países reúnem-se para criar uma organização para a paz.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="content">
+                        <span class="date">1948</span>
+                        <h3>A Declaração Universal</h3>
+                        <p>A ONU adota a DUDH. Definem-se os 30 direitos fundamentais de todos os seres humanos.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="citacao">
+            <h2>Pensamento do Dia</h2>
+            <div class="quote-box">
+                <span id="texto-citacao" class="quote-text">"Privar as pessoas dos seus direitos humanos é desafiar a sua própria humanidade."</span>
+                <span id="autor-citacao" class="quote-author">- Nelson Mandela</span>
+                <br>
+                <button class="quote-btn" onclick="novaCitacao()">Gerar Nova Citação</button>
             </div>
         </section>
 
     </div>
 
     <footer>
-        <p>Site Interativo de Direitos Humanos | Projeto GitHub</p>
+        <p>Site Educativo de Direitos Humanos | Projeto Escolar</p>
     </footer>
 
     <script>
-        // --- LÓGICA DO MAPA ---
+        // LÓGICA DO MAPA
         function mostrarHistoria(local) {
             const titulo = document.querySelector("#caixa-historia h3");
             const texto = document.querySelector("#caixa-historia p");
@@ -396,38 +421,24 @@
                 texto.innerText = "Sede Europeia: Onde opera o Conselho de Direitos Humanos, vigiando abusos pelo mundo.";
             }
 
-            // Animação simples
             caixa.style.backgroundColor = "#fff";
             setTimeout(() => { caixa.style.backgroundColor = "#eaf2f8"; }, 200);
         }
 
-        // --- LÓGICA DO QUIZ ---
-        function checkQuiz(btn, isCorrect, id) {
-            const feedbackBox = document.getElementById('feedback-' + id);
-            
-            // Bloqueia outros botões
-            const parent = btn.parentElement;
-            const buttons = parent.getElementsByTagName('button');
-            for(let i=0; i<buttons.length; i++) {
-                buttons[i].disabled = true;
-                buttons[i].style.cursor = "default";
-            }
+        // LÓGICA DAS CITAÇÕES
+        const citacoes = [
+            { texto: "Privar as pessoas dos seus direitos humanos é desafiar a sua própria humanidade.", autor: "Nelson Mandela" },
+            { texto: "A injustiça em qualquer lugar é uma ameaça à justiça em todo o lugar.", autor: "Martin Luther King Jr." },
+            { texto: "Todos os seres humanos nascem livres e iguais em dignidade e em direitos.", autor: "Artigo 1º da DUDH" },
+            { texto: "A paz não é apenas a ausência de guerra; é também a presença de justiça.", autor: "Jane Addams" },
+            { texto: "Onde começam os direitos humanos universais? Em pequenos lugares, perto de casa.", autor: "Eleanor Roosevelt" },
+            { texto: "Os direitos humanos são de todos nós, o tempo todo.", autor: "Ban Ki-moon" }
+        ];
 
-            feedbackBox.style.display = "block";
-
-            if (isCorrect) {
-                btn.style.backgroundColor = "#d4edda";
-                btn.style.borderColor = "#c3e6cb";
-                feedbackBox.style.color = "#155724";
-                feedbackBox.style.backgroundColor = "#d4edda";
-                feedbackBox.innerText = "✅ Correto! Muito bem.";
-            } else {
-                btn.style.backgroundColor = "#f8d7da";
-                btn.style.borderColor = "#f5c6cb";
-                feedbackBox.style.color = "#721c24";
-                feedbackBox.style.backgroundColor = "#f8d7da";
-                feedbackBox.innerText = "❌ Incorreto.";
-            }
+        function novaCitacao() {
+            const indice = Math.floor(Math.random() * citacoes.length);
+            document.getElementById("texto-citacao").innerText = '"' + citacoes[indice].texto + '"';
+            document.getElementById("autor-citacao").innerText = "- " + citacoes[indice].autor;
         }
     </script>
 
