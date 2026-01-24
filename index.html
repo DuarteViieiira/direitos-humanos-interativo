@@ -7,10 +7,10 @@
     <style>
         /* --- 1. GENERAL STYLES & COLORS --- */
         :root {
-            --primary: #2c3e50;       /* Dark Blue/Grey */
+            --primary: #2c3e50;       /* Dark Blue */
             --secondary: #3498db;     /* Bright Blue */
-            --accent: #e67e22;        /* Vibrant Orange (Colors!) */
-            --bg-light: #ecf0f1;      /* Light Grey Background */
+            --accent: #e67e22;        /* Orange */
+            --bg-light: #ecf0f1;      /* Light Grey */
             --white: #ffffff;
             --text: #333;
         }
@@ -25,7 +25,7 @@
             overflow-x: hidden;
         }
 
-        /* --- 2. NAVIGATION BAR (TAB SYSTEM) --- */
+        /* --- 2. NAVIGATION BAR --- */
         nav {
             background-color: var(--primary);
             padding: 1rem 2rem;
@@ -38,118 +38,69 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .nav-logo {
-            color: white;
-            font-weight: 800;
-            font-size: 1.4rem;
-            letter-spacing: 1px;
-        }
+        .nav-logo { color: white; font-weight: 800; font-size: 1.4rem; letter-spacing: 1px; }
 
         .nav-links button {
-            background: transparent;
-            border: none;
-            color: #bdc3c7;
-            font-size: 1rem;
-            font-weight: 600;
-            margin-left: 25px;
-            cursor: pointer;
-            text-transform: uppercase;
-            transition: all 0.3s;
+            background: transparent; border: none; color: #bdc3c7;
+            font-size: 1rem; font-weight: 600; margin-left: 25px;
+            cursor: pointer; text-transform: uppercase; transition: all 0.3s;
             padding-bottom: 5px;
         }
-
         .nav-links button:hover { color: white; }
+        .nav-links button.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
 
-        .nav-links button.active {
-            color: var(--accent);
-            border-bottom: 3px solid var(--accent);
-        }
+        /* --- 3. PAGE SYSTEM --- */
+        .page-view { display: none; animation: fadeIn 0.6s ease-in-out; }
+        .page-view.active-view { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- 3. PAGE VIEW SYSTEM --- */
-        /* Hides pages that are not active */
-        .page-view {
-            display: none;
-            animation: fadeIn 0.6s ease-in-out;
-        }
-        
-        .page-view.active-view {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* --- 4. HOME PAGE STYLES --- */
+        /* --- 4. HOME PAGE --- */
         .hero {
-            /* Background Image for impact */
-            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?q=80&w=2070&auto=format&fit=crop'); 
-            background-size: cover;
-            background-position: center;
-            height: 70vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
+            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('https://images.unsplash.com/photo-1555848962-6e79363ec58f?q=80&w=2070&auto=format&fit=crop'); 
+            background-size: cover; background-position: center; height: 70vh;
+            display: flex; align-items: center; justify-content: center; text-align: center; color: white;
         }
-
         .hero h1 { font-size: 3.5rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
         .hero p { font-size: 1.4rem; max-width: 700px; margin: 0 auto 30px auto; font-weight: 300; }
-        
         .hero-btn {
-            background-color: var(--accent);
-            color: white;
-            padding: 15px 35px;
-            border: none;
-            font-size: 1.2rem;
-            border-radius: 50px;
-            cursor: pointer;
-            font-weight: bold;
+            background-color: var(--accent); color: white; padding: 15px 35px; border: none;
+            font-size: 1.2rem; border-radius: 50px; cursor: pointer; font-weight: bold;
             transition: transform 0.2s, background 0.3s;
-            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.4);
         }
         .hero-btn:hover { transform: scale(1.05); background-color: #d35400; }
 
         .container { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
         .bg-grey { background-color: var(--bg-light); }
-
         h2 { text-align: center; color: var(--primary); font-size: 2.2rem; margin-bottom: 3rem; position: relative; }
         h2::after { content: ''; display: block; width: 60px; height: 4px; background: var(--accent); margin: 10px auto 0; }
 
-        /* Flip Cards */
+        /* Cards */
         .cards-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
         .card { width: 300px; height: 350px; perspective: 1000px; cursor: pointer; }
         .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; }
         .card:hover .card-inner { transform: rotateY(180deg); }
         .card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); overflow: hidden; }
-        
         .card-front { background: white; display: flex; flex-direction: column; }
         .card-img { height: 60%; width: 100%; object-fit: cover; }
         .card-content { height: 40%; display: flex; flex-direction: column; justify-content: center; align-items: center; }
         .card-content h3 { color: var(--primary); margin: 0; font-size: 1.4rem; }
-        
         .card-back { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; transform: rotateY(180deg); display: flex; align-items: center; justify-content: center; padding: 20px; font-size: 1.1rem; }
 
-        /* --- 5. CHAMPIONS PAGE STYLES --- */
+        /* --- 5. CHAMPIONS PAGE (LINKED) --- */
+        .champion-link { text-decoration: none; color: inherit; display: block; } /* Remove link underline */
         .champion-card {
-            display: flex;
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            display: flex; background: white; border-radius: 15px; overflow: hidden;
+            margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
-        .champion-card:hover { transform: translateY(-5px); }
+        .champion-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
         .champion-img { width: 250px; height: auto; object-fit: cover; }
         .champion-info { padding: 40px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
         .tag { display: inline-block; background: var(--accent); color: white; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; width: fit-content; margin-bottom: 15px; }
         .champion-info h3 { margin: 0 0 10px 0; font-size: 2rem; color: var(--primary); }
-        .champion-info p { font-size: 1.1rem; color: #555; }
+        .click-hint { font-size: 0.9rem; color: var(--secondary); margin-top: 15px; font-weight: bold; }
 
-        /* --- 6. HISTORY/MAP PAGE STYLES --- */
+        /* --- 6. HISTORY PAGE (MAP + TIMELINE) --- */
         .map-wrapper {
             position: relative; max-width: 900px; margin: 0 auto;
             border: 2px solid white; border-radius: 15px; overflow: hidden;
@@ -159,18 +110,36 @@
         .pin {
             position: absolute; width: 24px; height: 24px;
             background-color: var(--accent); border: 3px solid white; border-radius: 50%;
-            cursor: pointer; box-shadow: 0 0 10px rgba(0,0,0,0.3);
-            transition: transform 0.3s;
+            cursor: pointer; box-shadow: 0 0 10px rgba(0,0,0,0.3); transition: transform 0.3s;
         }
         .pin:hover { transform: scale(1.5); background-color: #d35400; }
-        
         .info-box {
-            text-align: center; background: white; padding: 30px; margin-top: 30px;
-            border-radius: 10px; border-left: 6px solid var(--accent);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            text-align: center; background: white; padding: 30px; margin-top: 30px; margin-bottom: 50px;
+            border-radius: 10px; border-left: 6px solid var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        /* --- FOOTER --- */
+        /* TIMELINE STYLES (Restored) */
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding-bottom: 50px; }
+        .timeline::after {
+            content: ''; position: absolute; width: 4px; background-color: #bdc3c7;
+            top: 0; bottom: 0; left: 30px; margin-left: -2px;
+        }
+        .timeline-item { padding: 15px 30px 15px 70px; position: relative; width: 100%; box-sizing: border-box; }
+        .timeline-item::after {
+            content: ''; position: absolute; width: 20px; height: 20px; left: 21px;
+            background-color: white; border: 4px solid var(--accent); top: 25px;
+            border-radius: 50%; z-index: 1; transition: background-color 0.3s;
+        }
+        .timeline-item:hover::after { background-color: var(--accent); }
+        .t-content {
+            padding: 25px; background-color: white; position: relative; border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.3s;
+            border-left: 4px solid var(--secondary);
+        }
+        .t-content:hover { transform: translateX(10px); }
+        .t-date { font-weight: bold; color: var(--accent); display: block; margin-bottom: 5px; font-size: 1.1rem; }
+        .t-content h3 { margin: 0 0 10px 0; color: var(--primary); }
+
         footer { background-color: var(--primary); color: white; text-align: center; padding: 2rem; margin-top: 4rem; }
     </style>
 </head>
@@ -181,7 +150,7 @@
         <div class="nav-links">
             <button onclick="showPage('home')" id="btn-home" class="active">Home</button>
             <button onclick="showPage('champions')" id="btn-champions">Champions</button>
-            <button onclick="showPage('history')" id="btn-history">History Map</button>
+            <button onclick="showPage('history')" id="btn-history">History & Map</button>
         </div>
     </nav>
 
@@ -202,7 +171,7 @@
                     <div class="card">
                         <div class="card-inner">
                             <div class="card-front">
-                                <img src="https://images.unsplash.com/photo-1464982326199-86f32f81b211?q=80&w=600&auto=format" class="card-img" alt="Freedom">
+                                <img src="https://images.unsplash.com/photo-1444465693019-aa0b6392460d?q=80&w=600&auto=format" class="card-img" alt="Birds Flying Freedom">
                                 <div class="card-content"><h3>Article 1</h3><p>Freedom & Equality</p></div>
                             </div>
                             <div class="card-back"><p>"All human beings are born free and equal in dignity and rights."</p></div>
@@ -212,7 +181,7 @@
                     <div class="card">
                         <div class="card-inner">
                             <div class="card-front">
-                                <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=600&auto=format" class="card-img" alt="Chains">
+                                <img src="https://images.unsplash.com/photo-1597842323538-239c09d43525?q=80&w=600&auto=format" class="card-img" alt="Chains">
                                 <div class="card-content"><h3>Article 4</h3><p>No Slavery</p></div>
                             </div>
                             <div class="card-back"><p>"No one shall be held in slavery or servitude; slavery is prohibited in all forms."</p></div>
@@ -222,7 +191,7 @@
                     <div class="card">
                         <div class="card-inner">
                             <div class="card-front">
-                                <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=600&auto=format" class="card-img" alt="Education">
+                                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600&auto=format" class="card-img" alt="Education">
                                 <div class="card-content"><h3>Article 26</h3><p>Right to Education</p></div>
                             </div>
                             <div class="card-back"><p>"Everyone has the right to education. Education shall be free."</p></div>
@@ -238,57 +207,98 @@
         <div class="container">
             <h2>Champions of Change</h2>
             <p style="text-align: center; margin-bottom: 50px; color: #666;">
-                Meet the people who dedicated their lives to fighting injustice.
+                Click on the cards to read their full story on Wikipedia.
             </p>
 
-            <div class="champion-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Harriet_Tubman_c1868-69_%28cropped%29.jpg/480px-Harriet_Tubman_c1868-69_%28cropped%29.jpg" class="champion-img" alt="Harriet Tubman">
-                <div class="champion-info">
-                    <span class="tag">Anti-Slavery</span>
-                    <h3>Harriet Tubman</h3>
-                    <p>Born into slavery, she escaped and subsequently made some 13 missions to rescue approximately 70 enslaved people using the network of antislavery activists known as the Underground Railroad.</p>
+            <a href="https://en.wikipedia.org/wiki/Harriet_Tubman" target="_blank" class="champion-link">
+                <div class="champion-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Harriet_Tubman_c1868-69_%28cropped%29.jpg/480px-Harriet_Tubman_c1868-69_%28cropped%29.jpg" class="champion-img" alt="Harriet Tubman">
+                    <div class="champion-info">
+                        <span class="tag">Anti-Slavery</span>
+                        <h3>Harriet Tubman</h3>
+                        <p>Born into slavery, she escaped and subsequently made some 13 missions to rescue approximately 70 enslaved people using the Underground Railroad.</p>
+                        <span class="click-hint">Read more on Wikipedia &rarr;</span>
+                    </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="champion-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Nelson_Mandela_1994.jpg/480px-Nelson_Mandela_1994.jpg" class="champion-img" alt="Nelson Mandela">
-                <div class="champion-info">
-                    <span class="tag">Racial Equality</span>
-                    <h3>Nelson Mandela</h3>
-                    <p>A South African anti-apartheid revolutionary who served as President of South Africa. He spent 27 years in prison for fighting against institutionalized racism and segregation.</p>
+            <a href="https://en.wikipedia.org/wiki/Nelson_Mandela" target="_blank" class="champion-link">
+                <div class="champion-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Nelson_Mandela_1994.jpg/480px-Nelson_Mandela_1994.jpg" class="champion-img" alt="Nelson Mandela">
+                    <div class="champion-info">
+                        <span class="tag">Racial Equality</span>
+                        <h3>Nelson Mandela</h3>
+                        <p>A South African anti-apartheid revolutionary who served as President of South Africa. He spent 27 years in prison for fighting against institutionalized racism.</p>
+                        <span class="click-hint">Read more on Wikipedia &rarr;</span>
+                    </div>
                 </div>
-            </div>
+            </a>
 
-            <div class="champion-card">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Malala_Yousafzai_at_Girl_Summit_2014.jpg/480px-Malala_Yousafzai_at_Girl_Summit_2014.jpg" class="champion-img" alt="Malala">
-                <div class="champion-info">
-                    <span class="tag">Education</span>
-                    <h3>Malala Yousafzai</h3>
-                    <p>A Pakistani activist for female education and the youngest Nobel Prize laureate. She survived an assassination attempt for speaking out about girls' right to go to school.</p>
+            <a href="https://en.wikipedia.org/wiki/Malala_Yousafzai" target="_blank" class="champion-link">
+                <div class="champion-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Malala_Yousafzai_at_Girl_Summit_2014.jpg/480px-Malala_Yousafzai_at_Girl_Summit_2014.jpg" class="champion-img" alt="Malala">
+                    <div class="champion-info">
+                        <span class="tag">Education</span>
+                        <h3>Malala Yousafzai</h3>
+                        <p>A Pakistani activist for female education and the youngest Nobel Prize laureate. She survived an assassination attempt for speaking out about girls' right to go to school.</p>
+                        <span class="click-hint">Read more on Wikipedia &rarr;</span>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 
     <div id="history" class="page-view">
         <div class="bg-grey" style="min-height: 85vh; padding-top: 2rem;">
             <div class="container">
-                <h2>Global History</h2>
-                <p style="text-align: center; margin-bottom: 30px;">Click the orange dots on the map to explore.</p>
                 
+                <h2>Global Origins</h2>
                 <div class="map-wrapper">
                     <img src="mapa.png" alt="World Map" class="world-map">
-                    
                     <div class="pin" style="top: 32%; left: 16%;" onclick="updateInfo('sf')" title="San Francisco"></div>
                     <div class="pin" style="top: 31%; left: 26%;" onclick="updateInfo('ny')" title="New York"></div>
                     <div class="pin" style="top: 27%; left: 49%;" onclick="updateInfo('paris')" title="Paris"></div>
                     <div class="pin" style="top: 29%; left: 50.5%;" onclick="updateInfo('geneva')" title="Geneva"></div>
                 </div>
-
                 <div id="info-box" class="info-box">
-                    <h3>Explore the Origins</h3>
-                    <p>Select a location on the map to see its significance.</p>
+                    <h3>Explore the Map</h3>
+                    <p>Click the orange dots on the map to see where history happened.</p>
                 </div>
+
+                <hr style="border: 0; height: 1px; background: #ccc; margin: 50px 0;">
+
+                <h2>Key Milestones</h2>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="t-content">
+                            <span class="t-date">539 B.C.</span>
+                            <h3>Cyrus Cylinder</h3>
+                            <p>Cyrus the Great conquers Babylon and frees the slaves, declaring all people have the right to choose their own religion.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="t-content">
+                            <span class="t-date">1215</span>
+                            <h3>Magna Carta</h3>
+                            <p>Signed in England, it established that everyone, including the king, was subject to the law.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="t-content">
+                            <span class="t-date">1945</span>
+                            <h3>Creation of the UN</h3>
+                            <p>50 nations met in San Francisco to form the United Nations to promote peace.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="t-content">
+                            <span class="t-date">1948</span>
+                            <h3>Universal Declaration</h3>
+                            <p>The UDHR is adopted by the UN General Assembly in Paris. 30 articles for all humanity.</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
@@ -300,19 +310,13 @@
     <script>
         // --- 1. TAB NAVIGATION LOGIC ---
         function showPage(pageId) {
-            // Hide all pages
             const pages = document.querySelectorAll('.page-view');
             pages.forEach(page => page.classList.remove('active-view'));
-
-            // Show selected page
             document.getElementById(pageId).classList.add('active-view');
 
-            // Update Menu Buttons (Active State)
             const buttons = document.querySelectorAll('.nav-links button');
             buttons.forEach(btn => btn.classList.remove('active'));
             document.getElementById('btn-' + pageId).classList.add('active');
-
-            // Scroll to top
             window.scrollTo(0, 0);
         }
 
@@ -336,12 +340,9 @@
                 text.innerText = "Home to the Human Rights Council, which investigates violations around the world.";
             }
 
-            // Simple animation effect
             box.style.backgroundColor = "#fff";
             box.style.transform = "scale(1.02)";
-            setTimeout(() => { 
-                box.style.transform = "scale(1)"; 
-            }, 200);
+            setTimeout(() => { box.style.transform = "scale(1)"; }, 200);
         }
     </script>
 
