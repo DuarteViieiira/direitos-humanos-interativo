@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Human Rights: Interactive History</title>
     <style>
-        /* --- 1. GENERAL STYLES & COLORS --- */
+        /* --- 1. ESTILOS GERAIS --- */
         :root {
-            --primary: #2c3e50;       /* Dark Blue */
-            --secondary: #3498db;     /* Bright Blue */
-            --accent: #e67e22;        /* Orange */
-            --bg-light: #ecf0f1;      /* Light Grey */
+            --primary: #2c3e50;       /* Azul Escuro */
+            --secondary: #3498db;     /* Azul Claro */
+            --accent: #e67e22;        /* Laranja */
+            --bg-light: #ecf0f1;      /* Cinzento Claro */
             --white: #ffffff;
             --text: #333;
         }
@@ -25,13 +25,13 @@
             overflow-x: hidden;
         }
 
-        /* --- 2. NAVIGATION BAR --- */
+        /* --- 2. BARRA DE NAVEGAÇÃO --- */
         nav {
             background-color: var(--primary);
             padding: 1rem 2rem;
             position: sticky;
             top: 0;
-            z-index: 1000;
+            z-index: 2000; /* Garante que fica por cima de tudo */
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -49,15 +49,16 @@
         .nav-links button:hover { color: white; }
         .nav-links button.active { color: var(--accent); border-bottom: 3px solid var(--accent); }
 
-        /* --- 3. PAGE SYSTEM --- */
+        /* --- 3. SISTEMA DE PÁGINAS --- */
         .page-view { display: none; animation: fadeIn 0.6s ease-in-out; }
         .page-view.active-view { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
         /* --- 4. HOME PAGE --- */
         .hero {
-            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('https://images.unsplash.com/photo-1555848962-6e79363ec58f?q=80&w=2070&auto=format&fit=crop'); 
-            background-size: cover; background-position: center; height: 70vh;
+            /* Tenta usar a imagem local, se não der usa o link online de backup */
+            background: linear-gradient(rgba(44, 62, 80, 0.7), rgba(44, 62, 80, 0.7)), url('hero-bg.jpg'), url('https://images.unsplash.com/photo-1555848962-6e79363ec58f?q=80&w=2070'); 
+            background-size: cover; background-position: center; height: 65vh;
             display: flex; align-items: center; justify-content: center; text-align: center; color: white;
         }
         .hero h1 { font-size: 3.5rem; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
@@ -69,12 +70,29 @@
         }
         .hero-btn:hover { transform: scale(1.05); background-color: #d35400; }
 
+        /* QUOTE GENERATOR (SECÇÃO NOVA) */
+        .quote-section {
+            background-color: var(--primary); color: white; text-align: center;
+            padding: 3rem 1rem; margin-top: -1px;
+        }
+        .quote-container {
+            max-width: 800px; margin: 0 auto; border: 2px solid rgba(255,255,255,0.2);
+            padding: 30px; border-radius: 15px;
+        }
+        .quote-text { font-size: 1.5rem; font-style: italic; display: block; margin-bottom: 15px; min-height: 60px; }
+        .quote-author { font-weight: bold; color: var(--accent); display: block; margin-bottom: 25px; }
+        .btn-quote {
+            background: transparent; border: 2px solid var(--accent); color: white;
+            padding: 10px 25px; cursor: pointer; border-radius: 30px; font-weight: bold; transition: 0.3s;
+        }
+        .btn-quote:hover { background-color: var(--accent); }
+
         .container { max-width: 1100px; margin: 0 auto; padding: 4rem 2rem; }
         .bg-grey { background-color: var(--bg-light); }
         h2 { text-align: center; color: var(--primary); font-size: 2.2rem; margin-bottom: 3rem; position: relative; }
         h2::after { content: ''; display: block; width: 60px; height: 4px; background: var(--accent); margin: 10px auto 0; }
 
-        /* Cards */
+        /* Flip Cards */
         .cards-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; }
         .card { width: 300px; height: 350px; perspective: 1000px; cursor: pointer; }
         .card-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.8s; transform-style: preserve-3d; }
@@ -86,12 +104,16 @@
         .card-content h3 { color: var(--primary); margin: 0; font-size: 1.4rem; }
         .card-back { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; transform: rotateY(180deg); display: flex; align-items: center; justify-content: center; padding: 20px; font-size: 1.1rem; }
 
-        /* --- 5. CHAMPIONS PAGE (LINKED) --- */
-        .champion-link { text-decoration: none; color: inherit; display: block; } /* Remove link underline */
+        /* --- 5. CHAMPIONS PAGE --- */
+        .champion-link { 
+            text-decoration: none; color: inherit; display: block; 
+            position: relative; z-index: 10; 
+        }
         .champion-card {
             display: flex; background: white; border-radius: 15px; overflow: hidden;
             margin-bottom: 40px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
         }
         .champion-card:hover { transform: translateY(-5px); box-shadow: 0 15px 40px rgba(0,0,0,0.2); }
         .champion-img { width: 250px; height: auto; object-fit: cover; }
@@ -100,7 +122,7 @@
         .champion-info h3 { margin: 0 0 10px 0; font-size: 2rem; color: var(--primary); }
         .click-hint { font-size: 0.9rem; color: var(--secondary); margin-top: 15px; font-weight: bold; }
 
-        /* --- 6. HISTORY PAGE (MAP + TIMELINE) --- */
+        /* --- 6. HISTORY PAGE --- */
         .map-wrapper {
             position: relative; max-width: 900px; margin: 0 auto;
             border: 2px solid white; border-radius: 15px; overflow: hidden;
@@ -118,7 +140,7 @@
             border-radius: 10px; border-left: 6px solid var(--accent); box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
 
-        /* TIMELINE STYLES (Restored) */
+        /* TIMELINE */
         .timeline { position: relative; max-width: 800px; margin: 0 auto; padding-bottom: 50px; }
         .timeline::after {
             content: ''; position: absolute; width: 4px; background-color: #bdc3c7;
@@ -163,6 +185,14 @@
             </div>
         </div>
 
+        <div class="quote-section">
+            <div class="quote-container">
+                <span id="quote-text" class="quote-text">"To deny people their human rights is to challenge their very humanity."</span>
+                <span id="quote-author" class="quote-author">- Nelson Mandela</span>
+                <button class="btn-quote" onclick="newQuote()">New Inspiration</button>
+            </div>
+        </div>
+
         <div class="bg-grey">
             <div class="container">
                 <h2>Fundamental Articles</h2>
@@ -171,7 +201,7 @@
                     <div class="card">
                         <div class="card-inner">
                             <div class="card-front">
-                                <img src="https://images.unsplash.com/photo-1444465693019-aa0b6392460d?q=80&w=600&auto=format" class="card-img" alt="Birds Flying Freedom">
+                                <img src="artigo-liberdade.jpg" onerror="this.src='https://images.unsplash.com/photo-1444465693019-aa0b6392460d?q=80&w=600'" class="card-img" alt="Birds">
                                 <div class="card-content"><h3>Article 1</h3><p>Freedom & Equality</p></div>
                             </div>
                             <div class="card-back"><p>"All human beings are born free and equal in dignity and rights."</p></div>
@@ -181,7 +211,7 @@
                     <div class="card">
                         <div class="card-inner">
                             <div class="card-front">
-                                <img src="https://images.unsplash.com/photo-1597842323538-239c09d43525?q=80&w=600&auto=format" class="card-img" alt="Chains">
+                                <img src="artigo-escravatura.jpg" onerror="this.src='https://images.unsplash.com/photo-1597842323538-239c09d43525?q=80&w=600'" class="card-img" alt="Chains">
                                 <div class="card-content"><h3>Article 4</h3><p>No Slavery</p></div>
                             </div>
                             <div class="card-back"><p>"No one shall be held in slavery or servitude; slavery is prohibited in all forms."</p></div>
@@ -191,7 +221,7 @@
                     <div class="card">
                         <div class="card-inner">
                             <div class="card-front">
-                                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600&auto=format" class="card-img" alt="Education">
+                                <img src="artigo-educacao.jpg" onerror="this.src='https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=600'" class="card-img" alt="Education">
                                 <div class="card-content"><h3>Article 26</h3><p>Right to Education</p></div>
                             </div>
                             <div class="card-back"><p>"Everyone has the right to education. Education shall be free."</p></div>
@@ -212,7 +242,7 @@
 
             <a href="https://en.wikipedia.org/wiki/Harriet_Tubman" target="_blank" class="champion-link">
                 <div class="champion-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Harriet_Tubman_c1868-69_%28cropped%29.jpg/480px-Harriet_Tubman_c1868-69_%28cropped%29.jpg" class="champion-img" alt="Harriet Tubman">
+                    <img src="harriet.jpg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Harriet_Tubman_c1868-69_%28cropped%29.jpg/480px-Harriet_Tubman_c1868-69_%28cropped%29.jpg'" class="champion-img" alt="Harriet Tubman">
                     <div class="champion-info">
                         <span class="tag">Anti-Slavery</span>
                         <h3>Harriet Tubman</h3>
@@ -224,7 +254,7 @@
 
             <a href="https://en.wikipedia.org/wiki/Nelson_Mandela" target="_blank" class="champion-link">
                 <div class="champion-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Nelson_Mandela_1994.jpg/480px-Nelson_Mandela_1994.jpg" class="champion-img" alt="Nelson Mandela">
+                    <img src="mandela.jpg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/02/Nelson_Mandela_1994.jpg/480px-Nelson_Mandela_1994.jpg'" class="champion-img" alt="Nelson Mandela">
                     <div class="champion-info">
                         <span class="tag">Racial Equality</span>
                         <h3>Nelson Mandela</h3>
@@ -236,7 +266,7 @@
 
             <a href="https://en.wikipedia.org/wiki/Malala_Yousafzai" target="_blank" class="champion-link">
                 <div class="champion-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Malala_Yousafzai_at_Girl_Summit_2014.jpg/480px-Malala_Yousafzai_at_Girl_Summit_2014.jpg" class="champion-img" alt="Malala">
+                    <img src="malala.jpg" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Malala_Yousafzai_at_Girl_Summit_2014.jpg/480px-Malala_Yousafzai_at_Girl_Summit_2014.jpg'" class="champion-img" alt="Malala">
                     <div class="champion-info">
                         <span class="tag">Education</span>
                         <h3>Malala Yousafzai</h3>
@@ -254,7 +284,8 @@
                 
                 <h2>Global Origins</h2>
                 <div class="map-wrapper">
-                    <img src="mapa.png" alt="World Map" class="world-map">
+                    <img src="mapa.png" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/World_map_blank_without_borders.svg/1280px-World_map_blank_without_borders.svg.png'" alt="World Map" class="world-map">
+                    
                     <div class="pin" style="top: 32%; left: 16%;" onclick="updateInfo('sf')" title="San Francisco"></div>
                     <div class="pin" style="top: 31%; left: 26%;" onclick="updateInfo('ny')" title="New York"></div>
                     <div class="pin" style="top: 27%; left: 49%;" onclick="updateInfo('paris')" title="Paris"></div>
@@ -308,7 +339,7 @@
     </footer>
 
     <script>
-        // --- 1. TAB NAVIGATION LOGIC ---
+        // --- 1. LÓGICA DE NAVEGAÇÃO ---
         function showPage(pageId) {
             const pages = document.querySelectorAll('.page-view');
             pages.forEach(page => page.classList.remove('active-view'));
@@ -320,7 +351,7 @@
             window.scrollTo(0, 0);
         }
 
-        // --- 2. MAP INTERACTIVITY LOGIC ---
+        // --- 2. LÓGICA DO MAPA ---
         function updateInfo(location) {
             const title = document.querySelector("#info-box h3");
             const text = document.querySelector("#info-box p");
@@ -343,6 +374,22 @@
             box.style.backgroundColor = "#fff";
             box.style.transform = "scale(1.02)";
             setTimeout(() => { box.style.transform = "scale(1)"; }, 200);
+        }
+
+        // --- 3. GERADOR DE FRASES INSPIRADORAS ---
+        const quotes = [
+            { text: "To deny people their human rights is to challenge their very humanity.", author: "Nelson Mandela" },
+            { text: "Injustice anywhere is a threat to justice everywhere.", author: "Martin Luther King Jr." },
+            { text: "One child, one teacher, one book and one pen can change the world.", author: "Malala Yousafzai" },
+            { text: "The rights of every man are diminished when the rights of one man are threatened.", author: "John F. Kennedy" },
+            { text: "Peace can only last where human rights are respected, where the people are fed, and where individuals and nations are free.", author: "Dalai Lama" },
+            { text: "We are all different, which is great because we are all unique. Without diversity life would be very boring.", author: "Catherine Pulsifer" }
+        ];
+
+        function newQuote() {
+            const random = Math.floor(Math.random() * quotes.length);
+            document.getElementById('quote-text').innerText = '"' + quotes[random].text + '"';
+            document.getElementById('quote-author').innerText = "- " + quotes[random].author;
         }
     </script>
 
